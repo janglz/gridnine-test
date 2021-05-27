@@ -1,38 +1,159 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-content: center;
+  /* height: 100vh;
+  width: 100%;
+  overflow: hidden; */
 }
-
-.App-link {
-  color: #61dafb;
+.loader-container {
+  height: 90vh;
+  align-self: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
-
-@keyframes App-logo-spin {
+.loader-img {
+  position: fixed;
+  height: 100px;
+  animation: loader-spin 0.75s infinite steps(8);
+}
+@keyframes loader-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
+}
+.search-panel {
+  
+  display: flex;
+  align-self: start;
+  align-items: flex-start;
+  margin: 35px 10px;
+  position: fixed;
+  transform: translate(-350px);
+}
+h2{
+  font-size: 14px;
+}
+.main-section{
+  /* width: 90%; */
+  /* padding-right: 400px;
+  margin-right: -400px; */
+  height: 100%;
+  /* overflow: auto; */
+  display: flex;
+  flex-direction: column;
+  transform: translate(100px);
+
+}
+.show-more{
+  width: 200px;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  align-self: center;
+}
+.flight-card {
+  margin: 15px;
+  min-width: 600px;
+  max-width: 1000px;
+  background: rgb(50, 144, 199);
+  color: white;
+}
+.flight-card--header{
+  display: flex;
+  justify-content: space-between;
+}
+.price {
+  text-align: right;
+  margin: 0 10px;
+  margin-top: 2px;
+  font-size: 20px;
+  font-weight: 600;
+}
+.header-img {
+  max-width: 300px;
+  margin: 10px
+}
+.flight-card--header .description {
+ 
+  font-size: 10px;
+  font-weight: 600;
+  margin: 0px 10px;
+}
+.card--flight-description{
+  padding: 1px 10px;
+  color: black;
+  background: rgb(255, 255, 255);
+  border-radius: 3px;
+  margin-top: 2px;
+}
+.flight-route{
+  border-bottom: 1px solid #dfdfdf;
+}
+.flight-time {
+  display: flex;
+  justify-content: space-between;
+}
+.stripe{
+  margin: 0 30px;
+  display: block;
+  height: 1px;
+  background: #969696;
+}
+.transfers{
+  display: block;
+  margin: 0 auto;
+  color: rgb(245, 176, 111);
+  background: white;
+  height: 20px;
+  width: 120px;
+  text-align: center;
+  transform: translateY(-50%);
+}
+.invisible{
+  display: none;
+}
+.company-description {
+  font-size: 14px;
+  font-weight: 200;
+}
+.button--select-flight {
+  cursor: pointer;
+  background-color: rgb(245, 176, 111);
+  padding: 10px;
+  width: 100%;
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0 auto;
+}
+.button--select-flight:hover {
+  background-color: rgb(236, 148, 65);
+  margin: 0 auto;
+}
+.blue-thin {
+  color:rgb(50, 144, 199);
+  font-size: 12;
+  font-weight: 300;
+}
+.no-search-results{
+  margin: auto;
+  width: 100%;
+  display: flex;
+
+}
+.no-search-results h1{
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+}
+.disabled{
+  color:rgb(196, 196, 196);
 }
