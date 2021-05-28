@@ -65,7 +65,7 @@ class App extends React.Component {
           return res
         case 'companies':
           const company = flight.carrier.caption;
-          
+
           return this.state.selectedCompanies.some(elem => elem === company)
         default:
           return true;
@@ -74,19 +74,23 @@ class App extends React.Component {
   }
 
   handleChanges = async () => {
-    const companies = {...this.state.allCompanies};
-    Object.keys(companies).map(comp=>companies[comp] = false)
+    
+    //const companies = {...this.state.allCompanies};
+    //Object.keys(companies).map(comp=>companies[comp] = false)
     const filtered = await this.state.allFlights.filter(obj => {
-      const res = this.filterByOptions(obj.flight);
+      const res = this.filterByOptions(obj.flight)
+      return res;
+      //вот с фасетной фильтрацией-то я и облажался...
+      //думаю, я бы справился с подобной задачей, 
+      //но мне понадобилось бы несравнимо больше времени
       if (res) {
         companies[(obj.flight.carrier.caption)] = true;
         return res
       }
     })
-    console.log(companies)
     
     await this.setState({
-      allCompanies: companies,
+      //allCompanies: companies,
       filtered: filtered,
       loading: false,
     })
