@@ -89,11 +89,11 @@ class App extends React.Component {
       // }
     })
     
+    
     await this.setState({
-      //allCompanies: companies,
       filtered: filtered,
-      loading: false,
     })
+    this.sortByState()
   }
 
   findTimeOfWay = (flight) => {
@@ -111,11 +111,10 @@ class App extends React.Component {
     return sumOfDiffs
   }
 
-  sortBy = async (elem) => {
-    await this.setState({loading: true})
+  sortByState = async () => {
     const filtered = [...this.state.filtered];
     let sorted;
-    switch (elem) {
+    switch (this.state.sortedBy) {
       case 'lowerPrice':
         sorted = await filtered.sort((first, second) => Number (first.flight.price.total.amount) > Number (second.flight.price.total.amount) ? 1: -1 );
         break;
@@ -133,8 +132,16 @@ class App extends React.Component {
     await this.setState({ 
       filtered: sorted, 
       loading: false, 
+    })
+  }
+
+  sortBy = async (elem) => {
+    await this.setState({
+      loading: true,
       sortedBy: elem
     })
+
+    this.sortByState()
   }
 
   setMaxPrice = async (e) => { 
