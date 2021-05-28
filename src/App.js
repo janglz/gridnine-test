@@ -47,7 +47,7 @@ class App extends React.Component {
 
   // я реализовал фильтрацию по принципу:
   // "условие применияется при соответствии хотя бы в одном из вариантов"
-  filterByOptions = (flight) => { 
+  isFlightMatchesOptions = (flight) => { 
     const keys = Object.keys(this.state.options); 
     return keys.every(option => {
       if(this.state.options[option] == false) return true;
@@ -73,26 +73,58 @@ class App extends React.Component {
     })
   }
 
-  handleChanges = async () => {
-    
-    //const companies = {...this.state.allCompanies};
-    //Object.keys(companies).map(comp=>companies[comp] = false)
-    const filtered = await this.state.allFlights.filter(obj => {
-      const res = this.filterByOptions(obj.flight)
-      return res;
-      //вот с фасетной фильтрацией-то я и облажался...
-      //думаю, я бы справился с подобной задачей, 
-      //но мне понадобилось бы несравнимо больше времени
-      // if (res) {
-      //   companies[(obj.flight.carrier.caption)] = true;
-      //   return res
-      // }
+  matchedCompanies = () => {
+    const companies = {...this.state.allCompanies};
+    Object.keys(companies).forEach(comp=>companies[comp] = false)
+    //выбираем для прохода только true-опции
+    const options = Object.keys(this.state.options); 
+    //перебираем все рейсы
+    this.state.allFlights.forEach(obj=>{
+      const flight = obj.flight;
+      const matches = (
+        options.every(option => {
+          if(this.state.options[option] == false) return true;
+          switch (option) {
+            case 'minPrice':
+              return Number(flight.price.total.amount) >= Number(this.state.minPrice);
+            case 'maxPrice':
+              return Number(flight.price.total.amount) <= Number(this.state.maxPrice);
+            case 'transfers':
+              const res = (
+                this.state.transfers
+                  .some(elem => flight.legs
+                    .every(leg => leg.segments.length - 1 === Number(elem)))
+              )
+              return res
+            default:
+              return true;
+          }
+        })
+      )
+
+      //фасетная фильтрация мне далась тяжело, вижу, что код трудно читаем и некрасив, кое-где дублируется,
+      //и наверное можно вынести часть функций, снизить вложенность, чтобы было аккуратнее, 
+      //но думаю, это выходит за рамки задания :)
+
+      if (matches) {
+        //если совпало - компания доступна в массиве объектов
+        companies[(obj.flight.carrier.caption)] = true;
+      }
     })
-    
+    return companies;
+  }
+
+  handleChanges = async () => {
+    const filtered = await this.state.allFlights.filter(obj => this.isFlightMatchesOptions(obj.flight))
+    const companies = await this.matchedCompanies()
     
     await this.setState({
       filtered: filtered,
+      allCompanies: companies,
+      loading: false,
     })
+
+    console.log(this.state.allCompanies)
     this.sortByState()
   }
 
@@ -127,7 +159,7 @@ class App extends React.Component {
         })
         break;
       default:
-        break      
+        return; 
     }
     await this.setState({ 
       filtered: sorted, 
@@ -222,7 +254,6 @@ class App extends React.Component {
           maxPrice={this.state.maxPrice}
           transfers={this.state.transfers}
           selected={this.state.selectedCompanies}
-          //options={this.state.options}
           onSortBy={this.sortBy}
         /> 
         <MainPage 
