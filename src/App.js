@@ -83,10 +83,10 @@ class App extends React.Component {
       //вот с фасетной фильтрацией-то я и облажался...
       //думаю, я бы справился с подобной задачей, 
       //но мне понадобилось бы несравнимо больше времени
-      if (res) {
-        companies[(obj.flight.carrier.caption)] = true;
-        return res
-      }
+      // if (res) {
+      //   companies[(obj.flight.carrier.caption)] = true;
+      //   return res
+      // }
     })
     
     await this.setState({
